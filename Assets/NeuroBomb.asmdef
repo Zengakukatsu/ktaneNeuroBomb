@@ -1,0 +1,8 @@
+{
+  "name": "NeuroBomb",
+  "references": [
+    "GameProxies"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": []
+}
