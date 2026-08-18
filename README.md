@@ -29,7 +29,8 @@ During a mission, Neuro can:
 - `focus_module` — Focus a module on the bomb. Focused modules have their action windows exposed.
 - `check_bomb_status` — Inspect the bomb’s remaining time, strikes, and solved-module progress.
 - `check_sides` — Inspect bomb widgets (Battery count, Serial number, etc.)
-- Generic placeholder and testing actions made for unregistered bomb modules and the simple wire module.
+- `cut_wire` — test action exposed when focused on a Simple Wires module. Allows wire cutting however ontext is incomplete.
+- Use a generic placeholder handler given to unregistered modules in the `BombManager`
 
 ## Architecture
 
@@ -65,6 +66,7 @@ Game interactions are performed through KTaNE’s internal `Selectable` system. 
 - End of mission navigation is not yet complete.
 - Support for modded modules is not yet available.
 - No action to pick up the bomb yet, it must be manually clicked.
+- Context for action results (Strike, Solved, etc) not yet implemented.
 - Focusing on a module on the non visible side of the bomb fails to flip the bomb around. (Solved previously, it is possible.)
 - Leaderboards and Best time on the Mission Detail page load asynchronously. Either it must be sent as context once loaded after the Action window for the detail page has been made, or the Action window creation must be stalled until Leaderboards are added so they can be included in context.
 
