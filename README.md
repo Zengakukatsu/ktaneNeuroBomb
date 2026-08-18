@@ -76,7 +76,7 @@ Game interactions are performed through KTaNE’s internal `Selectable` system. 
 
 1. Clone or download this repository.
 2. Open the project in Unity `2017.4.22f1`.
-3. Under `Keep Talking ModKit`, select your local *Keep Talking and Nobody Explodes* Steam installation.
+3. Under `Keep Talking ModKit`, click `Import Assembly-CSharp` and select your local *Keep Talking and Nobody Explodes* Steam installation.
 4. Reload the Unity project after the assembly import completes.
 5. Under `Keep Talking ModKit`, open `Configure Mod` and fill out the required mod information.
 6. Select `Build Asset Bundle`.
