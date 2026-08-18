@@ -14,7 +14,7 @@ MonoBehaviour:
   id: NeuroBomb
   title: NeuroBomb
   author: Zengakukatsu
-  description: Allows integration of Neuro into KTANE
+  description: Integrates Neuro with KTANE
   version: 
   outputFolder: build
   debugBuild: 1

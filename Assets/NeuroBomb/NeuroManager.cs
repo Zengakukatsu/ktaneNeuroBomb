@@ -5,6 +5,7 @@ using UnityEngine;
 public class NeuroManager : MonoBehaviour {
 
     private MenuManager menu_manager;
+    private BombManager bomb_manager;
 
     private void Awake()
     {
@@ -29,15 +30,16 @@ public class NeuroManager : MonoBehaviour {
 
 	private void BuildManagerForScene(int scene){
         if(scene == 3){
+
+            //Scene 3 is the office. MenuManager is created.
             Debug.Log("[NeuroBomb] Creating MenuManager.");
             menu_manager = gameObject.AddComponent<MenuManager>();
         }
         if(scene == 4){
 
-            //Scene 4 is the mission and where the BombManager will be added.
-
+            //Scene 4 is the mission. BombManager is created.
             Debug.Log("[NeuroBomb] Creating BombManager.");
-            //bomb_manager = gameObject.AddComponent<BombManager>();
+            bomb_manager = gameObject.AddComponent<BombManager>();
         }
     }
 }

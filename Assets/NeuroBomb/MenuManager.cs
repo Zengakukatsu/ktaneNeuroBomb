@@ -51,13 +51,12 @@ public class MenuManager : MonoBehaviour {
 			MissionTableOfContentsPage page = bomb_binder.MissionTableOfContentsPageManager.CurrentToCPage;
 			List<MissionTableOfContentsMissionEntry> availableMissions = GetAvailableMissions(page);
 			ActionSelectMission selectMission = new ActionSelectMission(this, availableMissions);
+			string context = GetMissionListContext(page);
 
 			// This window allows Neuro to press prev/next or select a mission on the mission select page.
 			window = ActionWindow.Create(gameObject);
 			window
-				.SetContext(
-					"Inside the binder are multiple pages of missions to select. " + 
-					"select_mission for more details, or flip_page to browse more Missions!")
+				.SetContext(context)
 				.AddAction(new ActionFlipPage(this, page));
 				// Only register select_mission if the schema is not empty.
 				if (availableMissions.Count > 0)
@@ -73,12 +72,11 @@ public class MenuManager : MonoBehaviour {
 		if (bomb_binder.MissionDetailPage != null && bomb_binder.MissionDetailPage.gameObject.activeSelf)
 		{
 			MissionDetailPage page = bomb_binder.MissionDetailPage;
+			string context = GetMissionDetailContext(page);
 
-			// This window allows Neuro to start a mission from the mission detail page or return to mission select.
 			window = ActionWindow.Create(gameObject);
 			window
-				.SetContext(
-					"You are viewing mission details. You may start the mission or return to the mission list.")
+				.SetContext(context)
 				.AddAction(new ActionStartMission(this, page))
 				.AddAction(new ActionReturnToList(this, page));
 			window.Register();
@@ -104,9 +102,7 @@ public class MenuManager : MonoBehaviour {
 		ShowPage();
 	}
 
-	//====================
-	//      Helpers     ||
-	//====================
+	// I need to make the Menu Manager use the global helpers instead of these Select things.
 
 	public void Select(Selectable selectable, bool refreshPage)
 	{
@@ -133,8 +129,7 @@ public class MenuManager : MonoBehaviour {
 			bomb_binder.FrontCoverOccluder.gameObject.activeSelf;
 	}
 
-	private List<MissionTableOfContentsMissionEntry> GetAvailableMissions(
-		MissionTableOfContentsPage page)
+	private List<MissionTableOfContentsMissionEntry> GetAvailableMissions(MissionTableOfContentsPage page)
 	{
 		List<MissionTableOfContentsMissionEntry> missions = new List<MissionTableOfContentsMissionEntry>();
 		foreach (MissionTableOfContentsEntry entry in page.Entries)
@@ -145,13 +140,128 @@ public class MenuManager : MonoBehaviour {
 
 			Mission mission = MissionManager.Instance.GetMission(missionEntry.MissionID);
 
-			if (mission != null &&
-				!mission.IsTutorial &&
-				missionEntry.IsUnlocked)
-			{
-				missions.Add(missionEntry);
-			}
+			if (mission != null && !mission.IsTutorial && missionEntry.IsUnlocked){
+				missions.Add(missionEntry);}
 		}
 		return missions;
+	}
+
+	private string GetMissionDetailContext(MissionDetailPage page)
+	{
+		List<string> details = new List<string>();
+
+		string title = "";
+		if (page.TextTitle != null){
+			if (page.TextTitle.SingleLine != null && page.TextTitle.SingleLine.gameObject.activeInHierarchy){
+				title = page.TextTitle.SingleLine.text;}
+			else if (page.TextTitle.DoubleLine != null){
+				title = page.TextTitle.DoubleLine.text;}
+		}
+		
+		if (!string.IsNullOrEmpty(title)){
+			details.Add("Mission: " + title + ".");}
+
+		if (page.TextDescription != null && !string.IsNullOrEmpty(page.TextDescription.text)){
+			details.Add("Description: " + page.TextDescription.text.Replace("\n", " ").Replace("\r", ""));}
+
+		if (page.TextTime != null && !string.IsNullOrEmpty(page.TextTime.text)){
+			details.Add("Time: " + page.TextTime.text.Replace("\n", " ").Replace("\r", "") + ".");}
+
+		if (page.TextModuleCount != null &&!string.IsNullOrEmpty(page.TextModuleCount.text)){
+			details.Add(page.TextModuleCount.text.Replace("\n", " ").Replace("\r", "") + ".");}
+
+		if (page.TextStrikes != null &&!string.IsNullOrEmpty(page.TextStrikes.text)){
+			details.Add(page.TextStrikes.text.Replace("\n", " ").Replace("\r", "") + ".");}
+
+		if (page.TextBestTime != null &&!string.IsNullOrEmpty(page.TextBestTime.text)){
+			details.Add("Best time: " + page.TextBestTime.text.Replace("\n", " ").Replace("\r", "") + ".");}
+
+		LeaderboardPage leaderboard = bomb_binder.LeaderboardPage;
+
+		if (leaderboard != null){
+			if (leaderboard.Subtitle != null && !string.IsNullOrEmpty(leaderboard.Subtitle.text)){
+				details.Add("Leaderboard: " + leaderboard.Subtitle.text.Replace("\n", " ").Replace("\r", "") + ".");}
+
+			List<string> entries = new List<string>();
+
+			if (leaderboard.DisplayEntries != null){
+				foreach (BombBinderLeaderboardEntry entry in leaderboard.DisplayEntries){
+					if (entry == null) continue;
+					if (entry.LeaderboardSelectable == null) continue;
+					if (entry.LeaderboardSelectable.Entry == null) continue;
+					if (entry.Rank == null || entry.Name == null || entry.Time == null) continue;
+
+					entries.Add(string.Format(
+						"{0}: {1}, {2}",
+						entry.Rank.text,
+						entry.Name.text,
+						entry.Time.text));
+				}
+			}
+
+			if (entries.Count > 0){
+				details.Add(
+					"Leaderboard entries: " +
+					string.Join("; ", entries.ToArray()) +
+					".");}
+			else{
+				details.Add("No leaderboard entries are currently available.");}
+		}
+		details.Add("You may start this mission or return to the mission list.");
+
+		return string.Join(" ", details.ToArray());
+	}
+
+	private string GetMissionListContext(MissionTableOfContentsPage page)
+	{
+		List<string> available = new List<string>();
+		int locked_count = 0;
+		int mission_count = 0;
+
+		foreach (MissionTableOfContentsEntry entry in page.Entries){
+			MissionTableOfContentsMissionEntry mission_entry = entry as MissionTableOfContentsMissionEntry;
+
+			if (mission_entry == null) continue;
+
+			Mission mission = MissionManager.Instance.GetMission(mission_entry.MissionID);
+
+			if (mission == null || mission.IsTutorial) continue;
+
+			mission_count++;
+
+			if (!mission_entry.IsUnlocked){
+				locked_count++;
+				continue;}
+
+			string mission_name = mission_entry.EntryText.text;
+
+			bool completed = mission_entry.CheckStamp != null && mission_entry.CheckStamp.activeSelf;
+
+			if (completed){mission_name += " (completed)";}
+			available.Add(mission_name);
+		}
+
+		List<string> context = new List<string>();
+
+		context.Add("The binder is open with several pages of missions. ");
+
+		if (available.Count > 0){
+			context.Add("Available missions on this page: " + string.Join(", ", available.ToArray()) + ".");}
+
+		if (locked_count > 0){
+			context.Add(string.Format(
+				"{0} mission{1} on this page {2} locked.",
+				locked_count,
+				locked_count == 1 ? "" : "s",
+				locked_count == 1 ? "is" : "are"));}
+
+		if (mission_count > 0 && locked_count == mission_count){
+			context.Add(
+				"All available missions are on previous pages.");}
+		else{
+			context.Add(
+				"Select a listed mission to view its details, or flip the page to browse more missions.");}
+
+		return string.Join(" ", context.ToArray());
 	}
 }

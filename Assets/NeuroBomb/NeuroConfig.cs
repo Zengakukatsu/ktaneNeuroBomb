@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// A lot of this is placeholder from my last version of the mod.
+
 public static class NeuroConfig
 {
     public const string 	GAME = "ktane";

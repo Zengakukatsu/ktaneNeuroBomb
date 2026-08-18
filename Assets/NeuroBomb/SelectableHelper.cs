@@ -1,16 +1,30 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectableHelper : MonoBehaviour {
+public static class SelectableHelper {
 
-	// Use this for initialization
-	void Start () {
-		
+	// Interacts with a Selectable through SelectableManager to
+	// set it as the games focused Selectable.
+	public static IEnumerator SelectFocus(Selectable selectable)
+	{
+		selectable.HandleSelect(true);
+		yield return new WaitForSeconds(NeuroConfig.SELECT_DELAY);
+
+		KTInputManager.Instance.SelectableManager.Select(selectable, false);
+		KTInputManager.Instance.SelectableManager.HandleInteract();
+
+		selectable.HandleDeselect(null);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	// Interacts with a Selectable through it's HandleInteract()
+	// without changing the games focused Selectable.
+	public static IEnumerator SelectInteract(Selectable selectable)
+	{
+		selectable.HandleSelect(true);
+		yield return new WaitForSeconds(NeuroConfig.SELECT_DELAY);
+
+		selectable.HandleInteract();
+
+		selectable.HandleDeselect(null);
 	}
 }
