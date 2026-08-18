@@ -6,25 +6,75 @@ This project combines the KTaNE Community ModKit and a modified version of the N
 
 The Neuro SDK was modified to support the Unity 2017 version used by KTaNE. I adapted the SDK to work with the older C# and .NET 3.5 environment used by Unity 2017. This includes replacing `NativeWebSocket` with `websocket-sharp`.
 
-The project is a work in progress. At this stage, menu navigation actions have been implemented to demonstrate the integration and action system. The end goal of the project is to integrate the full bomb-defusal process.
+All actual integration code is under `Assets/NeuroBomb`
+
+The project is a work in progress. At this stage, menu navigation, bomb management and focus system have been implemented. Framework to accept module actions is in place however only a couple placeholder module actions have been made so far. Each module will have a handler with unique integration based on the module's needs. The end goal of the project is to integrate the full bomb-defusal process.
 
 ## Current Functionality
 
-Neuro can currently:
+### Menu Navigation
 
-- `open_binder` — Open the mission binder
-- `flip_page` — Navigate between mission pages
-- `select_mission` — Select available missions
-- `start_mission` — Start a selected mission
-- `return_to_list` — Return to the mission list
+Neuro can navigate the office and start a mission using:
 
-The project has a NeuroManager that is created when the mod is loaded that tracks scene changes. At the moment upon entering the main menu, it creates MenuManager which handles all action windows available to Neuro and the state while in the office.
+- `open_binder` — Open the mission binder.
+- `flip_page` — Navigate between mission pages.
+- `select_mission` — Select an available mission.
+- `start_mission` — Start the selected mission.
+- `return_to_list` — Return to the mission list.
+
+### Bomb Interaction
+
+During a mission, Neuro can:
+
+- `focus_module` — Focus a module on the bomb. Focused modules have their action windows exposed.
+- `check_bomb_status` — Inspect the bomb’s remaining time, strikes, and solved-module progress.
+- `check_sides` — Inspect bomb widgets (Battery count, Serial number, etc.)
+- Generic placeholder and testing actions made for unregistered bomb modules and the simple wire module.
+
+## Architecture
+
+NeuroBomb is set up to have a single module focus. Only the focused module has its actions visible to Neuro, and she can swap focus or use other global defusal actions at any point in time. This is to prevent flooding context and make it easier for Neuro to understand each module.
+
+`NeuroManager` is instantiated when the mod loads and tracks game scene changes. It creates the appropriate manager for the current game state.
+
+`MenuManager` handles Neuro’s available actions while in the office, including opening the mission binder, navigating mission pages, selecting missions, and starting a game.
+
+`BombManager` initializes after a gameplay round starts and scans components attached to the active bomb. It is responsible for:
+
+- Tracking the currently focused module.
+- Creating and managing focus action window.
+- Creating and managing global action window.
+- Creating and Closing module action windows as focus changes.
+- Preventing overlapping actions while animations are running.
+
+Module handlers are registered in `ModuleHandlerRegistry` and are responsible for:
+
+- Module Context
+- Module Actions
+- Validation and execution logic for module interactions
+- Keeping track of module state.
+- They are created as needed during the Bomb scan and are stored in the `BombManager`
+
+`ModuleHandlerRegistry` maps game `BombComponent` types to their dedicated handlers. Unsupported components fall back to a generic handler when possible.
+
+Game interactions are performed through KTaNE’s internal `Selectable` system. The helper routines reproduce selection, focus, interaction, and deselection behavior as if a player hovered or clicked instead of directly changing module state.
+
+## Current Limitations
+
+- Not all modules have been integrated.
+- End of mission navigation is not yet complete.
+- Support for modded modules is not yet available.
+- No action to pick up the bomb yet, it must be manually clicked.
+- Focusing on a module on the non visible side of the bomb fails to flip the bomb around. (Solved previously, it is possible.)
+- Leaderboards and Best time on the Mission Detail page load asynchronously. Either it must be sent as context once loaded after the Action window for the detail page has been made, or the Action window creation must be stalled until Leaderboards are added so they can be included in context.
 
 ## Usage
 
+*Game assemblies are excluded from the repository to avoid distributing game files. They must be imported from a local KTaNE installation during step 3.*
+
 1. Clone or download this repository.
 2. Open the project in Unity `2017.4.22f1`.
-3. Under `Keep Talking ModKit`, select `Import Assembly-CSharp` and browse to the `Assembly-CSharp.dll` from your local *Keep Talking and Nobody Explodes* Steam installation.
+3. Under `Keep Talking ModKit`, select your local *Keep Talking and Nobody Explodes* Steam installation.
 4. Reload the Unity project after the assembly import completes.
 5. Under `Keep Talking ModKit`, open `Configure Mod` and fill out the required mod information.
 6. Select `Build Asset Bundle`.
