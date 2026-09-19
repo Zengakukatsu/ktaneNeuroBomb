@@ -10,7 +10,7 @@ namespace NeuroSdk.Internal
     {
         public static IEnumerator FindWsUrl(Action<string> callback)
         {
-            string url = "ws://127.0.0.1:8000";
+            string url = ConfigHelper.Get("ws://127.0.0.1:8000", "sdk", "websocket_url");
             TryGetWsUrlFromQuery(ref url);
             yield return TryGetWsUrlFromServer(url, result => url = result);
             TryGetWsUrlFromEnvironment(ref url);
