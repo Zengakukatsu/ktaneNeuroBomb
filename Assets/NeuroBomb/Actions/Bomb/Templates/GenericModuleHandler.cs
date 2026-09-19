@@ -6,7 +6,7 @@ using NeuroSdk.Websocket;
 // Handler used for modules not found in the registry.
 // Basically deprecated, kinda just used it to see how children worked.
 
-public class GenericModuleHandler : IBombModuleHandler {
+public class GenericModuleHandler : BombModuleHandler {
 
 	private readonly BombComponent component;
 
@@ -21,7 +21,7 @@ public class GenericModuleHandler : IBombModuleHandler {
 		return (selectable != null && selectable.Children != null) ? selectable.Children.Length : 0;
 	}
 
-	public string GetContext()
+	public override string GetContext()
 	{
 		return string.Format(
 			"This is a {0} module. There is no specific support for it yet, but it has {1} selectable part(s); use select_child to try interacting with one by index (0-based).",
@@ -29,7 +29,7 @@ public class GenericModuleHandler : IBombModuleHandler {
 			GetChildCount());
 	}
 
-	public void RegisterActions(ActionWindow window, BombManager manager)
+	public override void RegisterActions(ActionWindow window, BombManager manager)
 	{
 		int childCount = GetChildCount();
 

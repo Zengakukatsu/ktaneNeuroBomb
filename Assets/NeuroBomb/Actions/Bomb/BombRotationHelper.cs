@@ -45,7 +45,7 @@ public static class BombRotationHelper {
 		}
 	}
 
-	private static IEnumerator BombSetZSpin(
+	public static IEnumerator BombSetZSpin(
 		float target_spin,
 		float duration)
 	{

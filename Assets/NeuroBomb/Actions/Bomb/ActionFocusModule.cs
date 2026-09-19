@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using NeuroSdk.Actions;
 using NeuroSdk.Json;
 using NeuroSdk.Websocket;
+using Assets.Scripts.Input;
+using UnityEngine;
 
 public class ActionFocusModule : BusyAction<Selectable> {
 
@@ -14,7 +16,6 @@ public class ActionFocusModule : BusyAction<Selectable> {
 
 		foreach (ModuleInfo info in bomb_manager.modules)
 		{
-			if (info.component == bomb_manager.focus) continue;
 			available_modules[info.name] = info.component;
 		}
 	}
@@ -49,7 +50,10 @@ public class ActionFocusModule : BusyAction<Selectable> {
 		BombComponent component;
 
 		if (!available_modules.TryGetValue(module_name, out component)){
-			return ExecutionResult.Failure(string.Format("Module: {0} was not available.", module_name));}
+			return ExecutionResult.Failure(string.Format("Module: {0} was not available or does not exist.", module_name));}
+
+		if(component == manager.focus){
+			return ExecutionResult.Failure(string.Format("You are already focused on this module.", module_name));}
 
 		selectable = component.GetComponent<Selectable>();
 
@@ -68,16 +72,30 @@ public class ActionFocusModule : BusyAction<Selectable> {
 	{
 		manager.IsBusy = true;
 	
-		manager.focus_window.End();
 		if(manager.module_window != null){
 			manager.module_window.End();
 		}
+
+		FaceEnum current_face = KTInputManager.Instance.SelectableManager.GetActiveFace();
+		Selectable rear_face = manager.bomb.GetFace(FaceEnum.Rear).GetComponent<Selectable>();
+		FaceEnum target_face = selectable.Parent == rear_face ? FaceEnum.Rear : FaceEnum.Front;
+
+		if (target_face != current_face)
+		{
+			SelectableManager selectable_manager = KTInputManager.Instance.SelectableManager;
+
+			float target_spin = Mathf.Repeat(selectable_manager.GetZSpin() + 180f, 360f);
+			manager.StartCoroutine(BombRotationHelper.BombSetZSpin(target_spin, NeuroConfig.ROTATE_DURATION));
+
+			yield return null;
+		}
+
+
 
 		yield return manager.StartCoroutine(SelectableHelper.SelectFocus(selectable));
 
 		manager.focus = selectable.GetComponent<BombComponent>();
 
-		manager.MakeFocusWindow();
 		manager.MakeModuleWindow();
 
 		manager.IsBusy = false;

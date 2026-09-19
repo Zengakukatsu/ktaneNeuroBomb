@@ -12,8 +12,13 @@ public abstract class BusyAction : NeuroAction {
 	protected BusyAction(BombManager bombManager){manager = bombManager;}
 
 	protected sealed override ExecutionResult Validate(ActionJData actionData){
+
+		if (manager.mission_ended){
+			return ExecutionResult.Failure("The mission has ended.");}
+
 		if (manager.IsBusy){
 			return ExecutionResult.Failure("Still waiting for the last action to finish.");}
+
 		return ValidateAction(actionData);}
 
 	protected abstract ExecutionResult ValidateAction(ActionJData actionData);
@@ -25,9 +30,15 @@ public abstract class BusyAction<TData> : NeuroAction<TData> {
 	protected BusyAction(BombManager bombManager){manager = bombManager;}
 
 	protected sealed override ExecutionResult Validate(ActionJData actionData, out TData parsedData){
+
+		if (manager.mission_ended){
+			parsedData = default(TData);
+			return ExecutionResult.Failure("The mission has ended.");}
+
 		if (manager.IsBusy){
 			parsedData = default(TData);
 			return ExecutionResult.Failure("Still waiting for the last action to finish, try again in a moment.");}
+
 		return ValidateAction(actionData, out parsedData);}
 
 	protected abstract ExecutionResult ValidateAction(ActionJData actionData, out TData parsedData);

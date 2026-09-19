@@ -16,7 +16,7 @@ public class ActionCheckSides : BusyAction<string> {
 	public override string Name {
 		get { return "check_sides"; }}
 	protected override string Description {
-		get { return "Look at one side of the bomb and report the widgets found there.";}}
+		get { return "Look at one side of the bomb and report any batteries, indicators, port plates, or serial number found there. Other sides may contain additional widgets. Remembering what you see will help save time checking.";}}
 	protected override JsonSchema Schema {
 		get {
 			return new JsonSchema {
@@ -86,7 +86,7 @@ public class ActionCheckSides : BusyAction<string> {
 			: string.Join(" ", widgets.ToArray());
 
 		Context.Send(string.Format(
-			"The {0} side has: {1}",
+			"The {0} side has: {1}. There may be additional widgets on the other sides.",
 			side,
 			widget_info));
 
@@ -104,14 +104,17 @@ public class ActionCheckSides : BusyAction<string> {
 
 	private static string GetWidgetInfo(Widget widget)
 	{
-		if (widget is BatteryWidget){
-			int count = ((BatteryWidget)widget).GetNumberOfBatteries();
+	if (widget is BatteryWidget)
+	{
+		int count = ((BatteryWidget)widget).GetNumberOfBatteries();
 
-			return count == 1
-				? "A battery holder containing 1 battery."
-				: "A battery holder containing " +
-					count + " batteries.";
-		}
+		if (count == 1){
+			return "A battery holder containing 1 large battery.";}
+		if (count == 2){
+			return "A battery holder containing 2 small batteries.";}
+		if (count == 0){
+			return "An empty battery holder.";}
+	}
 
 		if (widget is SerialNumber){
 			return "Serial number: " + ((SerialNumber)widget).GetSerialString() + ".";}
