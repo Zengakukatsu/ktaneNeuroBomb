@@ -39,7 +39,7 @@ All actual integration code is under `Assets/NeuroBomb`.
 
 `modSettings.json` controls features including:
 
-- Neuro SDK WebSocket URL
+- Neuro SDK WebSocket URL (IMPORTANT! THIS IS WHERE TO CHANGE IT)
 - Action descriptions
 - Whether leaderboard information is included in mission context
 
