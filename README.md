@@ -94,10 +94,8 @@ Any prefab marked for `mod.bundle` will be included in the built asset bundle. A
 - Create a knowledge system, where when a twin solves a module they will be provided better context for solving it faster in the future.
 - Modded modules are possible to add and integrate in this project, but I do not currently plan to do so.
 
-=====================================================================================================================
 I like feedback. If you wanna give me feedback just message me on discord or find the thread for this and post there.
 Special thanks to sykym for keeping this project going.
-=====================================================================================================================
 
 ## Licenses
 
