@@ -23,11 +23,11 @@ public static class BombRotationHelper {
 			float start_spin = selectable_manager.GetZSpin();
 			float target_spin = side == "left" ? 270f : 90f;
 
-			yield return BombSetZSpin(target_spin, NeuroConfig.ROTATE_DURATION);
+			yield return BombSetZSpin(target_spin, ConfigHelper.Get(0.25f, "timing", "rotation_duration_seconds"));
 
 			yield return new WaitForSeconds(0.5f);
 
-			yield return BombSetZSpin(start_spin, NeuroConfig.ROTATE_DURATION);
+			yield return BombSetZSpin(start_spin, ConfigHelper.Get(0.25f, "timing", "rotation_duration_seconds"));
 
 			yield break;
 		}
@@ -37,11 +37,11 @@ public static class BombRotationHelper {
 			float start_roll = selectable_manager.GetHeldObjectTiltEulerAngles().x;
 			float target_roll = side == "top" ? -90f : 90f;
 
-			yield return BombSetRoll(target_roll, NeuroConfig.ROTATE_DURATION);
+			yield return BombSetRoll(target_roll, ConfigHelper.Get(0.25f, "timing", "rotation_duration_seconds"));
 
 			yield return new WaitForSeconds(0.5f);
 
-			yield return BombSetRoll(start_roll, NeuroConfig.ROTATE_DURATION);
+			yield return BombSetRoll(start_roll, ConfigHelper.Get(0.25f, "timing", "rotation_duration_seconds"));
 		}
 	}
 

@@ -33,10 +33,6 @@ public class BombManager : MonoBehaviour {
 	private void Update()
 	{
 		if (mission_ended || bomb == null) return;
-
-		if (Input.GetKeyDown(KeyCode.F10)){
-			DebugSolveBomb();}
-
 		if (!bomb.HasDetonated && !bomb.IsSolved()) return;
 
 		mission_ended = true;
@@ -174,7 +170,7 @@ public class BombManager : MonoBehaviour {
 	{
 		while (alarm_is_on && !mission_ended){
 			Context.Send("There is an annoying alarm going off!");
-			yield return new WaitForSeconds(2f);}
+			yield return new WaitForSeconds(ConfigHelper.Get(2.0f, "timing", "alarm_context_frequency"));}
 
 		alarm_coroutine = null;
 	}
@@ -201,25 +197,6 @@ public class BombManager : MonoBehaviour {
 				.Register();}
 
 		if (alarm_coroutine == null){alarm_coroutine = StartCoroutine(AlarmLoop());}
-	}
-
-	private void DebugSolveBomb()
-	{
-		if (bomb == null || bomb.HasDetonated || bomb.IsSolved())
-		{
-			return;
-		}
-
-		TimerComponent timer = bomb.GetTimer();
-
-		if (timer != null){timer.SetTimeRemaing(1f);}
-
-		foreach (BombComponent component in bomb.BombComponents)
-		{
-			if (component.IsSolvable){component.IsSolved = true;}
-		}
-
-		bomb.OnPass(null);
 	}
 }
 

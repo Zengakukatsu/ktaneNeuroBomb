@@ -15,7 +15,7 @@ public class ActionSpinChair : BusyAction {
 	public override string Name {
 		get { return "spin_in_chair"; }}
 	protected override string Description {
-		get { return "Spin all the way around in the chair. It is  fun!"; }}
+		get { return ConfigHelper.Get("FALLBACK - Spin all the way around in the chair. It is fun!", "action_descriptions", Name); }}
 	protected override JsonSchema Schema {
 		get {
 			return new JsonSchema {
@@ -46,7 +46,7 @@ public class ActionSpinChair : BusyAction {
 		Transform player_transform = player.transform;
 		Quaternion start_rotation = player_transform.localRotation;
 
-		float duration = 1.5f;
+		float duration = ConfigHelper.Get(1.5f, "timing", "chair_spin_duration");
 		float elapsed = 0f;
 
 		while (elapsed < duration && !manager.mission_ended)

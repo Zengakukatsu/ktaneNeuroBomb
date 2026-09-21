@@ -22,6 +22,10 @@ public class NeuroManager : MonoBehaviour {
 	
 	private void Update ()
 	{
+        if (Input.GetKeyDown(KeyCode.R)){
+            ConfigHelper.Reload();
+            Debug.Log("[NeuroBomb] Configuration reloaded.");
+        }
 	}
 
     void OnLevelWasLoaded(int scene){

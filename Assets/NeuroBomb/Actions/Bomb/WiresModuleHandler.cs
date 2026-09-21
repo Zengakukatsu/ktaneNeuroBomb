@@ -47,13 +47,9 @@ public class ActionCutWire : BusyAction<Selectable>
     }
 
     public override string Name{
-        get { return "cut_wire"; }
-    }
-
+        get { return "cut_wire"; }}
     protected override string Description{
-        get{return "Cut a wire by its number from top to bottom.";}
-    }
-
+        get{ return ConfigHelper.Get("FALLBACK - Cut a wire by its number from top to bottom.", "action_descriptions", "cut_wire_simple");}}
     protected override JsonSchema Schema{
         get{
             return new JsonSchema{

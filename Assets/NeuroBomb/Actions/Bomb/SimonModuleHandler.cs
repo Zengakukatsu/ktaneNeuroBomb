@@ -115,7 +115,7 @@ public class ActionPressSimonColor : BusyAction<Selectable> {
 	public override string Name {
 		get { return "press_color"; }}
 	protected override string Description {
-		get {return "Press one colored button on the Simon Says module.";}}
+		get {return ConfigHelper.Get("FALLBACK - Press one colored button on the Simon Says module.", "action_descriptions", Name);}}
 	protected override JsonSchema Schema {
 		get {
 			return new JsonSchema {

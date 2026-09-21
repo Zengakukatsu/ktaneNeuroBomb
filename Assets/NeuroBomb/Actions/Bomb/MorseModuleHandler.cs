@@ -101,7 +101,7 @@ public class ActionSetMorseFrequency : BusyAction<MorseFrequencySelection> {
 	public override string Name {
 		get { return "set_frequency"; }}
 	protected override string Description {
-		get { return "Adjust the displayed frequency without transmitting."; }}
+		get { return ConfigHelper.Get("FALLBACK - Adjust the displayed frequency without transmitting.", "action_descriptions", Name); }}
 	protected override JsonSchema Schema {
 		get {
 			return new JsonSchema {
@@ -191,7 +191,7 @@ public class ActionTransmitMorse : BusyAction<Selectable> {
 	public override string Name {
 		get { return "transmit"; }}
 	protected override string Description {
-		get { return "Transmit the selected frequency. Only use when you have set the module to the correct frequency."; }}
+		get { return ConfigHelper.Get("FALLBACK - Transmit the selected frequency. Only use when you have set the module to the correct frequency.", "action_descriptions", Name); }}
 	protected override JsonSchema Schema {
 		get { return new JsonSchema { Type = JsonSchemaType.Object }; }
 	}

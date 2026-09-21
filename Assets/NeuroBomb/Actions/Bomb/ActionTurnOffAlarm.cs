@@ -18,7 +18,7 @@ public class ActionTurnOffAlarm : NeuroAction<Selectable> {
 	public override string Name {
 		get { return "turn_off_alarm"; }}
 	protected override string Description {
-		get { return "Turn off the annoying alarm clock."; }}
+		get { return ConfigHelper.Get("FALLBACK - Turn off the annoying alarm clock.", "action_descriptions", Name); }}
 	protected override JsonSchema Schema {
 		get { return new JsonSchema {Type = JsonSchemaType.Object};}}
 

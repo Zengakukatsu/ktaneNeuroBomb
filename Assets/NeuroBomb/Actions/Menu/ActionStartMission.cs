@@ -17,7 +17,7 @@ public class ActionStartMission : NeuroAction {
 	public override string Name{
 		get { return "start_mission"; }}
     protected override string Description{
-		get { return "Starts the currently viewed Mission."; }}
+		get { return ConfigHelper.Get("FALLBACK - Starts the currently viewed Mission.", "action_descriptions", Name); }}
     protected override JsonSchema Schema{
         get{
             return new JsonSchema{Type = JsonSchemaType.Object};

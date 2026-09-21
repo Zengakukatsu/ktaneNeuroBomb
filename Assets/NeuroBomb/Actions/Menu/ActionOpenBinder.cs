@@ -23,7 +23,7 @@ public class ActionOpenBinder : NeuroAction{
 	public override string Name{
 		get { return "open_binder"; }}
     protected override string Description{
-		get { return "Opens the mission binder."; }}
+		get { return ConfigHelper.Get("FALLBACK - Opens the mission binder.", "action_descriptions", Name); }}
     protected override JsonSchema Schema{
         get{
             return new JsonSchema{Type = JsonSchemaType.Object};

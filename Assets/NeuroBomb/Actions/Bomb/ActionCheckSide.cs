@@ -16,7 +16,7 @@ public class ActionCheckSides : BusyAction<string> {
 	public override string Name {
 		get { return "check_sides"; }}
 	protected override string Description {
-		get { return "Look at one side of the bomb and report any batteries, indicators, port plates, or serial number found there. Other sides may contain additional widgets. Remembering what you see will help save time checking.";}}
+		get { return ConfigHelper.Get("FALLBACK - Look at one side of the bomb and report any batteries, indicators, port plates, or serial number found there. Other sides may contain additional widgets. Remembering what you see will help save time checking.", "action_descriptions", Name);}}
 	protected override JsonSchema Schema {
 		get {
 			return new JsonSchema {

@@ -19,14 +19,14 @@ public class KeypadModuleHandler : BombModuleHandler
             { "\u067C", "smiley face" },
             { "\u0496", "I with arms and legs" },
             { "\u03A9", "omega" },
-            { "\u046C", "squid knife" },
+            { "\u046C", "upside down triangle with lines" },
             { "\u047C", "pumpkin" },
             { "\u03D7", "H with a flick" },
             { "\u03EB", "right C" },
             { "\u03EC", "six" },
             { "\u03DE", "lightning bolt" },
-            { "\u0466", "A with a T in it" },
-            { "\u04D5", "AE" },
+            { "\u0466", "Pyramid" },
+            { "\u04D5", "A E" },
             { "\u0506", "Hook thing" },
             { "\u04EC", "euro" },
             { "\u0488", "hundred thousands sign" },
@@ -34,16 +34,16 @@ public class KeypadModuleHandler : BombModuleHandler
             { "\u046F", "dragon" },
             { "\u00BF", "upside-down question mark" },
             { "\u00B6", "paragraph" },
-            { "\u03FE", "right C with dot" },
-            { "\u03FF", "left C with dot" },
+            { "\u03FE", "C with dot" },
+            { "\u03FF", "backwards C with dot" },
             { "\u03A8", "pitchfork" },
             { "\u046A", "triangle with three lines" },
-            { "\u04A8", "cursive" },
-            { "\u0482", "tracks" },
+            { "\u04A8", "C Q" },
+            { "\u0482", "half a hashtag" },
             { "\u03D8", "balloon" },
             { "\u03B6", "squiggly N" },
             { "\u019B", "lambda" },
-            { "\u0463", "BT" }
+            { "\u0463", "B with a line" }
         };
 
     private readonly KeypadComponent component;
@@ -110,7 +110,7 @@ public class KeypadModuleHandler : BombModuleHandler
             get { return "press_key"; }}
 
         protected override string Description{
-			get{return "Press one of the symbols on the keypad.";}}
+			get{return ConfigHelper.Get("FALLBACK - Press one of the symbols on the keypad.", "action_descriptions", Name);}}
 
         protected override JsonSchema Schema{
             get{

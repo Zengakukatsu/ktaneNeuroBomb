@@ -18,7 +18,7 @@ public class ActionRetryMission : NeuroAction<Selectable> {
 	public override string Name {
 		get { return "retry_mission"; }}
 	protected override string Description {
-		get { return "Retry the mission that just ended."; }}
+		get { return ConfigHelper.Get("FALLBACK - Retry the mission that just ended.", "action_descriptions", Name); }}
 	protected override JsonSchema Schema {
 		get {
 			return new JsonSchema {Type = JsonSchemaType.Object};

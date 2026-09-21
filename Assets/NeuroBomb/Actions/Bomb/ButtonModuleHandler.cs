@@ -83,7 +83,7 @@ public class ButtonModuleHandler : BombModuleHandler {
 		public override string Name{
 			get { return "press_button"; }}
 		protected override string Description{
-			get { return "Tap the button or begin holding it."; }}
+			get { return ConfigHelper.Get("FALLBACK - Tap the button or begin holding it.", "action_descriptions", Name); }}
 		protected override JsonSchema Schema{
 			get{
 				return new JsonSchema{
@@ -210,11 +210,7 @@ public class ButtonModuleHandler : BombModuleHandler {
 			get { return "schedule_release"; }}
 		protected override string Description{
 			get{
-				return
-					"Schedule the held button to release the next " +
-					"time the timer display contains the chosen " +
-					"digit. Only use this after the manual user " +
-					"tells you the required digit.";
+				return ConfigHelper.Get("FALLBACK - Schedule the held button to release the next time the timer display contains the chosen digit. Only use this after the manual user tells you the required digit.", "action_descriptions", Name);
 			}
 		}
 		protected override JsonSchema Schema{

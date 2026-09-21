@@ -21,7 +21,7 @@ public class ActionSelectMission : NeuroAction<Selectable>
     public override string Name{
         get { return "select_mission"; }}
     protected override string Description{
-        get { return "Select a mission to view its details and try to start it."; }}
+        get { return ConfigHelper.Get("FALLBACK - Select a mission to view its details and try to start it.", "action_descriptions", Name); }}
     protected override JsonSchema Schema{
         get{
 			return new JsonSchema{

@@ -21,7 +21,7 @@ public class ActionFocusModule : BusyAction<Selectable> {
 	}
 
 	public override string Name { get { return "focus_module"; } }
-	protected override string Description { get { return "Look at and focus a module on the bomb. Allows you to perform that module's actions."; } }
+	protected override string Description { get { return ConfigHelper.Get("FALLBACK - Look at and focus a module on the bomb. Allows you to perform that module's actions.", "action_descriptions", Name); } }
 	protected override JsonSchema Schema{
 		get{
 			List<object> names = new List<object>();

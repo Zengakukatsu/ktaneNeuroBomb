@@ -22,7 +22,7 @@ public class ActionFlipPage : NeuroAction<Selectable>{
 	public override string Name{
 		get { return "flip_page"; }}
     protected override string Description{
-		get { return "View another page of missions."; }}
+		get { return ConfigHelper.Get("FALLBACK - View another page of missions.", "action_descriptions", Name); }}
 	protected override JsonSchema Schema{
 		get{
 			List<string> pages = new List<string>();

@@ -61,7 +61,7 @@ public class ActionCheckPasswordLetters : BusyAction<CharSpinner> {
 	public override string Name {
 		get { return "check_letters"; }}
 	protected override string Description {
-		get { return "Cycle through every available letter at one password position.";}}
+		get { return ConfigHelper.Get("FALLBACK - Cycle through every available letter at one password position.", "action_descriptions", Name);}}
 	protected override JsonSchema Schema {
 		get { return new JsonSchema {
 				Type = JsonSchemaType.Object,
@@ -150,7 +150,7 @@ public class ActionSetPasswordLetter :
 	public override string Name {
 		get { return "set_letter"; }}
 	protected override string Description {
-		get { return "Rotate one password position to a desired available letter.";}}
+		get { return ConfigHelper.Get("FALLBACK - Rotate one password position to a desired available letter.", "action_descriptions", Name);}}
 	protected override JsonSchema Schema {
 		get { return new JsonSchema {
 				Type = JsonSchemaType.Object,
@@ -306,7 +306,7 @@ public class ActionSubmitPassword : BusyAction<Selectable> {
 	public override string Name {
 		get { return "submit_password"; }}
 	protected override string Description {
-		get { return "Submit the currently displayed password."; }}
+		get { return ConfigHelper.Get("FALLBACK - Submit the currently displayed password.", "action_descriptions", Name); }}
 	protected override JsonSchema Schema {
 		get { return new JsonSchema { Type = JsonSchemaType.Object }; }}
 

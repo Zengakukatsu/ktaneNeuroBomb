@@ -60,7 +60,7 @@ public class ActionPressMemoryButton : BusyAction<Selectable> {
 	public override string Name {
 		get { return "press_memory_button"; }}
 	protected override string Description {
-		get {return "Press a button by its position from left to right.";}}
+		get {return ConfigHelper.Get("FALLBACK - Press a button by its position from left to right.", "action_descriptions", Name);}}
 	protected override JsonSchema Schema {
 		get {
 			return new JsonSchema {

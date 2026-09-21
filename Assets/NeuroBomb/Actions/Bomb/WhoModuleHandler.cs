@@ -96,7 +96,7 @@ public class ActionPressWhoButton : BusyAction<Selectable> {
 	public override string Name {
 		get { return "press_word"; }}
 	protected override string Description {
-		get {return "Press one of the words currently shown on the module.";}}
+		get {return ConfigHelper.Get("FALLBACK - Press one of the words currently shown on the module.", "action_descriptions", Name);}}
 	protected override JsonSchema Schema {
 		get {
 			List<object> words = new List<object>();

@@ -1,5 +1,92 @@
 {
-  "sdk": {
-    "websocket_url": "ws://127.0.0.1:8000"
-  }
+	"sdk": {
+		"websocket_url": "ws://127.0.0.1:8000"
+	},
+    "behavior_flags": {
+        "leaderboard_context"   : true,
+        "neuro_menu_control"    : true,
+        "force_menu_actions"    : false,
+        "single_menu_context"   : false,
+        "check_all_sides"       : false,
+        "alarm_context_spam"    : true,
+        "use_module_knowledge"  : false,
+        "modules_auto_learned"  : false
+    },
+	"timing": {
+        "force_menu_window_seconds"     : 7.5,
+		"chair_spin_duration"			: 2.0,
+		"highlight_duration_seconds"	: 0.25,
+		"rotation_duration_seconds"		: 0.25,
+		"alarm_context_frequency"		: 2.0
+	},
+    "module_knowledge": {
+    "solves_to_auto_learn": 3,
+        "neuro": {
+            "simple_wires": 0,
+            "button": 0,
+            "keypad": 0,
+            "simon_says": 0,
+            "whos_on_first": 0,
+            "memory": 0,
+            "morse_code": 0,
+            "complicated_wires": 0,
+            "wire_sequences": 0,
+            "maze": 0,
+            "password": 0
+        },
+        "evil": {
+            "simple_wires": 0,
+            "button": 0,
+            "keypad": 0,
+            "simon_says": 0,
+            "whos_on_first": 0,
+            "memory": 0,
+            "morse_code": 0,
+            "complicated_wires": 0,
+            "wire_sequences": 0,
+            "maze": 0,
+            "password": 0
+        }
+    },
+	"action_descriptions": {
+		"bomb_status"       : "Check the bomb's time, strikes, and module progress. Use check_sides instead to find batteries, indicators, ports, and the serial number.",
+		"check_sides"       : "Look at one side of the bomb and report any batteries, indicators, port plates, or serial number found there. Other sides may contain additional widgets. Remembering what you see will help save time checking.",
+		"focus_module"      : "Look at and focus on a module on the bomb. Allows you to perform that module's actions.",
+		"check_current_module_status": "Check the current state of the focused module.",
+		"spin_in_chair"     : "Spin all the way around in the chair. It is fun!",
+		"turn_off_alarm"    : "Turn off the annoying alarm clock.",
+		"press_button"      : "Tap the button or begin holding it.",
+		"schedule_release"  : "Schedule the held button to release the next time the timer display contains the chosen digit. Only use this after the manual user tells you the required digit.",
+		"cut_wire_simple"   : "Cut a wire by its number from top to bottom.",
+		"cut_wire_complicated": "Cut an uncut wire by its numbered position from left to right.",
+		"cut_wire_sequences": "Cut a wire by its numbered position on the current panel.",
+		"press_key"         : "Press one of the symbols on the keypad",
+		"check_maze_positions": "Check the positions of the symbols on the maze.",
+		"move_maze"         : "Press one of the maze's directional arrows.",
+		"press_memory_button": "Press a button by its position from left to right.",
+		"set_frequency"     : "Adjust the displayed frequency without transmitting.",
+		"transmit"          : "Transmit the selected frequency. Only use when you have set the module to the correct frequency.",
+		"check_letters"     : "Cycle through every available letter at one password position.",
+		"set_letter"        : "Rotate one password position to a desired available letter.",
+		"submit_password"   : "Submit the currently displayed password.",
+		"press_color"       : "Press one colored button on the Simon Says module.",
+		"press_word"        : "Press one of the words currently shown on the module.",
+		"select_child"      : "Select and interact with one of this module's parts by index (0-based).",
+		"submit_panel"      : "Submit the current panel and attempt to move to the next panel.",
+		"check_all_wires"   : "Review all wire panels that have already been reached.",
+		"flip_page"         : "View another page of missions.",
+		"open_binder"       : "Open the mission binder.",
+		"retry_mission"     : "Retry the mission that just ended.",
+		"return_to_list"    : "Return to the mission-selection list.",
+		"return_to_menu"    : "Return to the mission menu.",
+		"select_mission"    : "Select a mission to view its details and try to start it.",
+		"start_mission"     : "Start the currently viewed mission."
+	},
+    "static_contexts": {
+        "context_main_menu_start"   : "You are at the KTANE main menu. Start a mission using start_mission.",
+        "context_mission_start"     : "A KTANE mission is active. Work with the manual user to defuse the bomb.",
+        "context_defused"           : "The bomb has been defused!.",
+        "context_solved"            : ".",
+        "context_exploded"          : "There is an annoying alarm going off!"
+    }
 }

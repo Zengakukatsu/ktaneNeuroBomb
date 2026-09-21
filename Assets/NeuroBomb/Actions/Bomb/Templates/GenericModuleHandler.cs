@@ -54,7 +54,7 @@ public class ActionSelectChild : BusyAction<int> {
 	public override string Name{
 		get { return "select_child"; }}
 	protected override string Description{
-		get { return "Select and interact with one of this module's parts by index (0-based)."; }}
+		get { return ConfigHelper.Get("FALLBACK - Select and interact with one of this module's parts by index (0-based).", "action_descriptions", Name); }}
 	protected override JsonSchema Schema{
 		get{
 			return new JsonSchema{

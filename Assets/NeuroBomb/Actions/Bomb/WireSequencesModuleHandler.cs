@@ -134,7 +134,7 @@ public class ActionCutSequenceWire : BusyAction<Selectable> {
 	public override string Name {
 		get { return "cut_wire"; }}
 	protected override string Description {
-		get { return "Cut a wire by its numbered position on the current panel.";}}
+		get { return ConfigHelper.Get("FALLBACK - Cut a wire by its numbered position on the current panel.", "action_descriptions", "cut_wire_sequences");}}
 	protected override JsonSchema Schema {
 		get { return new JsonSchema {
 				Type = JsonSchemaType.Object,
@@ -239,7 +239,7 @@ public class ActionSubmitSequencePanel : BusyAction<Selectable> {
 	public override string Name {
 		get { return "submit_panel"; }}
 	protected override string Description {
-		get {return "Submit the current panel and attempt to move to the next panel.";}}
+		get {return ConfigHelper.Get("FALLBACK - Submit the current panel and attempt to move to the next panel.", "action_descriptions", Name);}}
 	protected override JsonSchema Schema {
 		get {return new JsonSchema {
 				Type = JsonSchemaType.Object
@@ -305,7 +305,7 @@ public class ActionCheckAllSequenceWires : BusyAction {
 	public override string Name {
 		get { return "check_all_wires"; }}
 	protected override string Description {
-		get {return "Review all wire panels that have " + "already been reached.";}}
+		get {return ConfigHelper.Get("FALLBACK - Review all wire panels that have already been reached.", "action_descriptions", Name);}}
 	protected override JsonSchema Schema {
 		get {return new JsonSchema {
 				Type = JsonSchemaType.Object

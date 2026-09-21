@@ -64,7 +64,7 @@ public class MazeModuleHandler : BombModuleHandler {
 			get { return "check_maze_positions"; }}
 
 		protected override string Description{
-			get { return "Check the positions of the symbols on the maze."; }}
+			get { return ConfigHelper.Get("FALLBACK - Check the positions of the symbols on the maze.", "action_descriptions", Name); }}
 
 		protected override JsonSchema Schema{
 			get{
@@ -99,7 +99,7 @@ public class MazeModuleHandler : BombModuleHandler {
 			get { return "move_maze"; }}
 
 		protected override string Description{
-			get { return "Press one of the maze's directional arrows."; }}
+			get { return ConfigHelper.Get("FALLBACK - Press one of the maze's directional arrows.", "action_descriptions", Name); }}
 
 		protected override JsonSchema Schema{
 			get{

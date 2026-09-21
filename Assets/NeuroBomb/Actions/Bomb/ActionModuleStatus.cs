@@ -14,7 +14,7 @@ public class ActionModuleStatus : NeuroAction {
 	public override string Name {
 		get { return "check_current_module_status"; }}
 	protected override string Description {
-		get { return "Check the current state of the focused module."; }}
+		get { return ConfigHelper.Get("FALLBACK - Check the current state of the focused module.", "action_descriptions", Name); }}
 	protected override JsonSchema Schema {
 		get { return new JsonSchema {Type = JsonSchemaType.Object};}}
 

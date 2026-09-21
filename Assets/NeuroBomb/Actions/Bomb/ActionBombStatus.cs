@@ -14,7 +14,7 @@ public class ActionBombStatus : NeuroAction {
 	public override string Name {
 		get { return "bomb_status"; }}
 	protected override string Description {
-		get {return "Check the bomb's time, strikes, and module progress. Use check_sides instead to find batteries, indicators, ports, and the serial number.";}}
+		get { return ConfigHelper.Get("FALLBACK - Check the bomb's time, strikes, and module progress. Use check_sides instead to find batteries, indicators, ports, and the serial number.", "action_descriptions", Name);}}
 	protected override JsonSchema Schema {
 		get {
 			return new JsonSchema {

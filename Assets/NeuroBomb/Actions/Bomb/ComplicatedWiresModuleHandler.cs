@@ -71,7 +71,7 @@ public class ActionCutComplicatedWire : BusyAction<Selectable> {
 	public override string Name {
 		get { return "cut_wire"; }}
 	protected override string Description {
-		get {return "Cut an uncut wire by its numbered position from left to right.";}}
+		get {return ConfigHelper.Get("FALLBACK - Cut a wire by its numbered position from left to right.", "action_descriptions", "cut_wire_complicated");}}
 	protected override JsonSchema Schema {
 		get {
 			List<object> available_wires =

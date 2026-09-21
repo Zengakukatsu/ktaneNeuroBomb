@@ -18,7 +18,7 @@ public class ActionReturnToMenu : NeuroAction<Selectable> {
 	public override string Name {
 		get { return "return_to_menu"; }}
 	protected override string Description {
-		get { return "Return to the mission menu."; }}
+		get { return ConfigHelper.Get("FALLBACK - Return to the mission menu.", "action_descriptions", Name); }}
 	protected override JsonSchema Schema {
 		get {
 			return new JsonSchema {Type = JsonSchemaType.Object};

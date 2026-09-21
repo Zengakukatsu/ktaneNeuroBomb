@@ -71,15 +71,7 @@ public class MenuManager : MonoBehaviour {
 		// Registers: start_mission, return_to_list
 		if (bomb_binder.MissionDetailPage != null && bomb_binder.MissionDetailPage.gameObject.activeSelf)
 		{
-			MissionDetailPage page = bomb_binder.MissionDetailPage;
-			string context = GetMissionDetailContext(page);
-
-			window = ActionWindow.Create(gameObject);
-			window
-				.SetContext(context)
-				.AddAction(new ActionStartMission(this, page))
-				.AddAction(new ActionReturnToList(this, page));
-			window.Register();
+			StartCoroutine(ShowMissionDetailPage(bomb_binder.MissionDetailPage));
 			return;
 		}
 
@@ -88,6 +80,32 @@ public class MenuManager : MonoBehaviour {
 		KTInputManager.Instance.LetGo();
 		RefreshPage();
 		return;
+	}
+
+	private IEnumerator ShowMissionDetailPage(MissionDetailPage page)
+	{
+		bool wait_for_leaderboard = ConfigHelper.Get(false, "behavior_flags", "leaderboard_context");
+		string leaderboard_context = "";
+
+		if (wait_for_leaderboard){
+			float timeout = 3f;
+
+			while (string.IsNullOrEmpty(leaderboard_context) && timeout > 0f){
+				leaderboard_context = GetLeaderboardContext();
+				timeout -= Time.unscaledDeltaTime;
+				yield return null;}
+		}
+
+		string context = GetMissionDetailContext(page);
+		if (!string.IsNullOrEmpty(leaderboard_context)){context += " " + leaderboard_context;}
+		context += "You may start this mission or return to the mission list.";
+
+		window = ActionWindow.Create(gameObject);
+		window
+			.SetContext(context)
+			.AddAction(new ActionStartMission(this, page))
+			.AddAction(new ActionReturnToList(this, page));
+		window.Register();
 	}
 
 	public void RefreshPage()
@@ -176,40 +194,42 @@ public class MenuManager : MonoBehaviour {
 		if (page.TextBestTime != null &&!string.IsNullOrEmpty(page.TextBestTime.text)){
 			details.Add("Best time: " + page.TextBestTime.text.Replace("\n", " ").Replace("\r", "") + ".");}
 
+		return string.Join(" ", details.ToArray());
+	}
+
+	private string GetLeaderboardContext()
+	{
 		LeaderboardPage leaderboard = bomb_binder.LeaderboardPage;
 
-		if (leaderboard != null){
-			if (leaderboard.Subtitle != null && !string.IsNullOrEmpty(leaderboard.Subtitle.text)){
-				details.Add("Leaderboard: " + leaderboard.Subtitle.text.Replace("\n", " ").Replace("\r", "") + ".");}
+		if (leaderboard == null || leaderboard.DisplayEntries == null){return "";}
 
-			List<string> entries = new List<string>();
+		List<string> entries = new List<string>();
 
-			if (leaderboard.DisplayEntries != null){
-				foreach (BombBinderLeaderboardEntry entry in leaderboard.DisplayEntries){
-					if (entry == null) continue;
-					if (entry.LeaderboardSelectable == null) continue;
-					if (entry.LeaderboardSelectable.Entry == null) continue;
-					if (entry.Rank == null || entry.Name == null || entry.Time == null) continue;
+		foreach (BombBinderLeaderboardEntry entry in leaderboard.DisplayEntries){
+			if (entry == null) continue;
+			if (entry.Rank == null || entry.Name == null || entry.Time == null) continue;
+			if (string.IsNullOrEmpty(entry.Name.text)) continue;
+			if (!entry.Name.gameObject.activeSelf) continue;
 
-					entries.Add(string.Format(
-						"{0}: {1}, {2}",
-						entry.Rank.text,
-						entry.Name.text,
-						entry.Time.text));
-				}
-			}
+			entries.Add(string.Format(
+				"{0}: {1}, {2}",
+				entry.Rank.text,
+				entry.Name.text,
+				entry.Time.text));}
 
-			if (entries.Count > 0){
-				details.Add(
-					"Leaderboard entries: " +
-					string.Join("; ", entries.ToArray()) +
-					".");}
-			else{
-				details.Add("No leaderboard entries are currently available.");}
-		}
-		details.Add("You may start this mission or return to the mission list.");
+		if (entries.Count == 0){return "";}
 
-		return string.Join(" ", details.ToArray());
+		string context = "";
+
+		if (leaderboard.Subtitle != null &&!string.IsNullOrEmpty(leaderboard.Subtitle.text)){
+			context += "Leaderboard: " +
+				leaderboard.Subtitle.text
+					.Replace("\n", " ")
+					.Replace("\r", "") +
+				". ";}
+
+		context += "Leaderboard entries: " + string.Join("; ", entries.ToArray()) + ".";
+		return context;
 	}
 
 	private string GetMissionListContext(MissionTableOfContentsPage page)
@@ -263,5 +283,14 @@ public class MenuManager : MonoBehaviour {
 				"Select a listed mission to view its details, or flip the page to browse more missions.");}
 
 		return string.Join(" ", context.ToArray());
+	}
+
+	private void OnDestroy()
+	{
+		StopAllCoroutines();
+
+		if (window != null){
+			window.End();
+			window = null;}
 	}
 }
