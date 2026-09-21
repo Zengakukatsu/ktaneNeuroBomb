@@ -10,6 +10,8 @@ The Neuro SDK was modified to support the Unity 2017 version used by KTaNE. I ad
 
 All actual integration code is under `Assets/NeuroBomb`.
 
+*Special thanks to sykym for keeping this project going.*
+
 ## Current Functionality
 
 - Menu and mission-binder navigation
@@ -96,7 +98,6 @@ Any prefab marked for `mod.bundle` will be included in the built asset bundle. A
 - Modded modules are possible to add and integrate in this project, but I do not currently plan to do so.
 
 I like feedback. If you wanna give me feedback just message me on discord or find the thread for this and post there.
-Special thanks to sykym for keeping this project going.
 
 ## Licenses
 
