@@ -86,6 +86,7 @@ Any prefab marked for `mod.bundle` will be included in the built asset bundle. A
 - Requires user input to enable mods prior to Neuro taking over. (I will eventually patch this out)
 - The module-knowledge system is not yet implemented.
 - Although the game lifecycle has been verified additional testing and polish are in progress.
+- Alarm action untested, it never went off for me. I will Force it to happen for testing later.
 
 ## Future Plans
 
