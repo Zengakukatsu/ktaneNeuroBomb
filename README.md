@@ -10,7 +10,7 @@ The Neuro SDK was modified to support the Unity 2017 version used by KTaNE. I ad
 
 All actual integration code is under `Assets/NeuroBomb`.
 
-*Special thanks to sykym for keeping this project going.*
+**Special thanks to sykym for keeping this project going.**
 
 ## Current Functionality
 
