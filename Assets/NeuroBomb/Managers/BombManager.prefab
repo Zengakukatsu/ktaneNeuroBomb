@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89318c337f8786d46b8b67b1de0bdf02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focus_window: {fileID: 0}
   module_window: {fileID: 0}
   global_window: {fileID: 0}
   focus: {fileID: 0}
+  mission_ended: 0

@@ -21,7 +21,6 @@ public class ActionTurnOffAlarm : NeuroAction<Selectable> {
 		get { return ConfigHelper.Get("FALLBACK - Turn off the annoying alarm clock.", "action_descriptions", Name); }}
 	protected override JsonSchema Schema {
 		get { return new JsonSchema {Type = JsonSchemaType.Object};}}
-
 	protected override ExecutionResult Validate(ActionJData action_data, out Selectable selectable)
 	{
 		selectable = null;
@@ -43,12 +42,11 @@ public class ActionTurnOffAlarm : NeuroAction<Selectable> {
 	protected override void Execute(Selectable selectable)
 	{
 		manager.StartCoroutine(TurnOff(selectable));
-	}
+	}	
 
 	private IEnumerator TurnOff(Selectable selectable)
 	{
 		yield return manager.StartCoroutine(SelectableHelper.SelectInteract(selectable));
-
 		manager.StopAlarmHandling();
 	}
 }
